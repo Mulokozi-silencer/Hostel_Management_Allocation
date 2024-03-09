@@ -1,0 +1,71 @@
+#include <stdio.h>
+#include <stdlib.h> 
+
+typedef struct hostel{
+    int rn0;
+    char name[30];
+    char location[30];
+    char gender[6];
+    int roomno;
+} hostel;
+
+int lower=1, upper=5;
+
+void create(){
+    hostel h;
+    FILE *fp = fopen("hostel.txt","a+");
+   
+    printf("\n\t\t\tEnter RollNo : ");
+    scanf("%d",&h.rn0); // Corrected typo here
+    printf("\n\t\t\tEnter Name : ");
+    scanf("%s",h.name);
+    printf("\n\t\t\tEnter Location : ");
+    scanf("%s",h.location);
+    printf("\n\t\t\tEnter Gender : ");
+    scanf("%s",h.gender);
+    h.roomno = ((rand() %(upper-lower+1))+lower);
+    fwrite(&h,sizeof(hostel),1,fp);
+   
+    fclose(fp);
+}
+
+void display(){
+    hostel h1; // Declare h1 here
+    FILE *fp = fopen("hostel.txt","r");
+    printf("\n\n\t\t\tRoll No\t\tName\n");
+    while(fread(&h1,sizeof(hostel),1,fp))
+        printf("\t\t\t%-10d%-20s\n",h1.rn0,h1.name); // Fixed formatting
+    fclose(fp);
+}
+
+int main(){
+    int ch;
+    do{
+        printf("\n\t\t\t-------------------------------------------------------");
+        printf("\n\t\t\t|-------Welcome to MG. STAR HOSTEL ALLOCATION---------|");
+        printf("\n\t\t\t-------------------------------------------------------");
+        printf("\n1.ALLOCATE NEW ROOM");
+        printf("\n2.DISPLAY");
+        printf("\n0.EXIT"); // Corrected typo here
+        printf("\nEnter your choice: \t");
+        scanf("%d", &ch);
+        
+        switch(ch){
+            case 1:
+                create(); 
+                break;
+            
+            case 2: 
+                display();
+                break;
+            
+            case 0:
+                printf("Thanks very much.....:)\n");
+                break; // Added break here
+            default:
+                printf("Invalid choice! Please try again.\n");
+        }
+    } while(ch!=0);
+
+    return 0;
+}
